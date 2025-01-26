@@ -19,6 +19,7 @@ pipeline {
             steps {
                 echo '# # # # # STAGE 2 - Build Image # # # # #'
                 script{
+                    sh sudo usermod -aG docker jenkins
                     sh 'docker build -t helloworld:latest .'
                 }
             }
