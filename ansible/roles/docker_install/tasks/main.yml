@@ -1,0 +1,57 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for docker_install
+
+# 1. Update apt package index
+- name: Update the apt package cache
+  apt:
+    update_cache: yes
+
+# 2. Install required packages for Docker
+- name: Install prerequisite packages
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+    state: present
+
+# 3. Add Docker's GPG key
+- name: Add Docker's GPG key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+# 4. Add Docker repository
+- name: Add Docker's official repository
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+    state: present
+
+# 5. Update apt cache again after adding Docker repository
+- name: Update apt cache after adding Docker repository
+  apt:
+    update_cache: yes
+
+# 6. Install Docker
+- name: Install Docker CE
+  apt:
+    name:
+      - docker-ce
+    state: present
+
+# 7. Add the user to the docker group (optional)
+- name: Add current user to the docker group
+  user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: true
+  when: ansible_user != "root"
+
+# 8. Start and enable Docker service
+- name: Ensure Docker service is running and enabled
+  service:
+    name: docker
+    state: started
+    enabled: true

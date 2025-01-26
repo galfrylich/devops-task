@@ -1,0 +1,11 @@
+---
+- name: Instal dependencies 
+  hosts: jenkins
+  remote_user: root
+  become: true
+  vars_files:
+    - vars.yml
+  roles:
+    - docker_install
+    - kubernetes_cli
+  

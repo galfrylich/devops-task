@@ -1,0 +1,48 @@
+
+    # 1. Update the apt package cache
+    - name: Update the apt package cache
+      apt:
+        update_cache: yes
+
+    # 2. Install prerequisites for adding repositories
+    - name: Install prerequisites
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg
+          - software-properties-common
+        state: present
+        update_cache: yes
+
+    # 3. Download and save the Jenkins GPG key to the keyring directory
+    - name: Add Jenkins GPG key to keyring
+      get_url:
+        url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+        dest: /usr/share/keyrings/jenkins-keyring.gpg
+        mode: '0644'
+
+    # 4. Configure Jenkins repository securely
+    - name: Add Jenkins repository
+      copy:
+        content: "deb [signed-by=/usr/share/keyrings/jenkins-keyring.gpg] https://pkg.jenkins.io/debian-stable binary/"
+        dest: /etc/apt/sources.list.d/jenkins.list
+        mode: '0644'
+
+    # 5. Update apt cache and install Jenkins
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install Jenkins
+      apt:
+        name: jenkins
+        state: present
+
+    # 6. Ensure Jenkins service is running and enabled
+    - name: Ensure Jenkins service is running
+      service:
+        name: jenkins
+        state: started
+        enabled: true
