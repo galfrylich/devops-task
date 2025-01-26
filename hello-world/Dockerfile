@@ -7,7 +7,7 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 WORKDIR /app
 
 # Copy the application code to the container
-COPY app.py /app
+COPY hello-world/app.py /app
 
 # Install Flask (and other dependencies if needed)
 RUN pip install --no-cache-dir flask
