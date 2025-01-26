@@ -19,6 +19,7 @@ pipeline {
             steps {
                 echo '# # # # # STAGE 2 - Build Image # # # # #'
                 script{
+                    sh 'whoami'
                     dockerImage = docker.build("webspp:latest")
                 }
             }
