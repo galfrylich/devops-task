@@ -1,0 +1,30 @@
+pipeline {
+    agent any 
+    environment {
+        GitURL = 'https://github.com/galfrylich/devops-task'
+        GitcredentialsId = 'be180531-f264-44fe-897e-818a60362759'
+    }
+    stages {
+        stage('Git Checkout') {
+            steps {
+                echo '# # # # # STAGE 1 - Git checkout # # # # #'
+                checkout([$class: 'GitSCM',
+                 branches: [[name: '*/main']], 
+                 extensions: [], 
+                 userRemoteConfigs: [[credentialsId: "$GitcredentialsId",
+                 url: "$GitURL"]]])
+            }
+        }
+        stage('Build docker image') {
+            steps {
+                echo '# # # # # STAGE 2 - Build Image # # # # #'
+                script{
+                    sh 'docker build -t helloworld:latest .'
+                }
+            }
+        }
+        
+        
+    }
+  
+}
