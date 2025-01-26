@@ -1,6 +1,7 @@
 pipeline {
     agent any 
     environment {
+        AmazonRegistry = '314525640319.dkr.ecr.us-west-1.amazonaws.com/gal-repo'
         GitURL = 'https://github.com/galfrylich/devops-task'
         GitcredentialsId = 'be180531-f264-44fe-897e-818a60362759'
     }
@@ -22,9 +23,19 @@ pipeline {
             steps {
                 echo '# # # # # STAGE 2 - Build Image # # # # #'
                 script{
-                    sh 'whoami'
-                    dockerImage = docker.build("webapp:latest", "-f hello-world/Dockerfile .")
+                    sh 'aws ecr get-login-password --region us-west-1 | docker login --username AWS --password-stdin 314525640319.dkr.ecr.us-west-1.amazonaws.com'
+                    dockerImage = docker.build("$AmazonRegistry:latest", "-f hello-world/Dockerfile .")
 
+
+                }
+            }
+        }
+        stage('push image to erc') {
+            steps {
+                script{
+                    echo '# # # # # STAGE 3 - Push Image # # # # #'
+                    sh 'docker push $AmazonRegistry:latest'
+                    }
                 }
             }
         }
