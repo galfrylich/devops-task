@@ -23,7 +23,7 @@ pipeline {
                 echo '# # # # # STAGE 2 - Build Image # # # # #'
                 script{
                     sh 'whoami'
-                    dockerImage = docker.build("webapp:latest", "-f /hello-world/Dockerfile .")
+                    dockerImage = docker.build("webapp:latest", "-f hello-world/Dockerfile .")
 
                 }
             }
