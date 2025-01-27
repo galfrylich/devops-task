@@ -35,6 +35,7 @@ pipeline {
                 script{
                     echo '# # # # # STAGE 3 - Push Image # # # # #'
                     withCredentials([string(credentialsId: '20aa853b-0b70-47e4-97fa-122fc4e0df60')]) {
+                        sh 'echo hello'
                         sh 'docker push $AWSRegistry:latest'
                     }
                     
