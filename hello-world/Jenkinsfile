@@ -23,7 +23,6 @@ pipeline {
             steps {
                 echo '# # # # # STAGE 2 - Build Image # # # # #'
                 script{
-                    sh 'aws ecr get-login-password --region us-west-1 | docker login --username AWS --password-stdin 314525640319.dkr.ecr.us-west-1.amazonaws.com'
                     dockerImage = docker.build("$AmazonRegistry:latest", "-f hello-world/Dockerfile .")
 
 
