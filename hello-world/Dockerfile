@@ -22,4 +22,4 @@ USER appuser
 EXPOSE 5000
 
 # Set the command to run the application
-CMD ["python", "app.py"]
+CMD ["python", "app.py", "--debug"]
