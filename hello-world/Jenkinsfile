@@ -32,14 +32,12 @@ pipeline {
         }
         stage('push image to erc') {
             steps {
-                script{
-                    echo '# # # # # STAGE 3 - Push Image # # # # #'
                     withAWS(credentials: '$AWScredentialsId', region: 'us-west-1'){
                         sh 'echo hello'
                         sh 'docker push $AWSRegistry:latest'
                     }
                     
-                    }
+                    
                 }
             }
         }
