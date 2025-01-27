@@ -24,7 +24,7 @@ pipeline {
             steps {
                 echo '# # # # # STAGE 2 - Build Image # # # # #'
                 script{
-                    dockerImage = docker.build("$AWSRegistry:latest", "-f hello-world/Dockerfile .")
+                    dockerImage = docker.build("$AWSRegistry:${BUILD_NUMBER}", "-f hello-world/Dockerfile .")
 
 
                 }
@@ -35,10 +35,16 @@ pipeline {
                     withAWS(credentials: "$AWScredentialsId"){
                         sh 'aws ecr get-login-password --region us-west-1 | docker login --username AWS --password-stdin 314525640319.dkr.ecr.us-west-1.amazonaws.com'
                         sh 'echo hello'
-                        sh 'docker push $AWSRegistry:latest'
+                        sh 'docker push $AWSRegistry:${BUILD_NUMBER}'
                     }
                 }
             }
+        stage('deploy to cluster') {
+        steps {
+                sh ""
+                helm upgrade --install hello-world ./hello-world-app --set image.tag=${BUILD_NUMBER}
+            }
+        }
         }
         
   
