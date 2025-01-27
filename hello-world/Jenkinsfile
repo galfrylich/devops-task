@@ -34,7 +34,7 @@ pipeline {
             steps {
                 script{
                     echo '# # # # # STAGE 3 - Push Image # # # # #'
-                    withCredentials([string(credentialsId: '$AWScredentialsId')]) {
+                    withCredentials([string(credentialsId: '20aa853b-0b70-47e4-97fa-122fc4e0df60')]) {
                         sh 'docker push $AWSRegistry:latest'
                     }
                     
