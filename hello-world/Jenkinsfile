@@ -1,9 +1,12 @@
 pipeline {
     agent any 
     environment {
-        AmazonRegistry = '314525640319.dkr.ecr.us-west-1.amazonaws.com/gal-repo'
+        AWSRegistry = '314525640319.dkr.ecr.us-west-1.amazonaws.com/gal-repo'
+        AWScredentialsId = '20aa853b-0b70-47e4-97fa-122fc4e0df60'
         GitURL = 'https://github.com/galfrylich/devops-task'
         GitcredentialsId = 'be180531-f264-44fe-897e-818a60362759'
+        
+
     }
     stages {
         stage('Git Checkout') {
@@ -23,7 +26,7 @@ pipeline {
             steps {
                 echo '# # # # # STAGE 2 - Build Image # # # # #'
                 script{
-                    dockerImage = docker.build("$AmazonRegistry:latest", "-f hello-world/Dockerfile .")
+                    dockerImage = docker.build("$AWSRegistry:latest", "-f hello-world/Dockerfile .")
 
 
                 }
@@ -33,9 +36,10 @@ pipeline {
             steps {
                 script{
                     echo '# # # # # STAGE 3 - Push Image # # # # #'
-                    sh 'docker push $AmazonRegistry:latest'
-                    }
+                    docker.withRegistry("https://" + registry, "ecr:us-west-1:" + AWScredentialsId) {
+                    dockerImage.push()
                 }
+            }
             }
         }
         
