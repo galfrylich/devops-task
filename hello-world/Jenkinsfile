@@ -2,7 +2,7 @@ pipeline {
     agent any 
     environment {
         AWSRegistry = '314525640319.dkr.ecr.us-west-1.amazonaws.com/gal-repo'
-        AWScredentialsId = '20aa853b-0b70-47e4-97fa-122fc4e0df60'
+        AWScredentialsId = '8460b74d-d6e5-447a-9386-dbd0d8a415e6'
         GitURL = 'https://github.com/galfrylich/devops-task'
         GitcredentialsId = 'be180531-f264-44fe-897e-818a60362759'
     }
@@ -32,7 +32,7 @@ pipeline {
         }
         stage('push image to erc') {
             steps {
-                    withAWS(credentials: '20aa853b-0b70-47e4-97fa-122fc4e0df60'){
+                    withAWS(credentials: 'aws-2'){
                         sh 'echo hello'
                         sh 'docker push $AWSRegistry:latest'
                     }
