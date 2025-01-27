@@ -41,8 +41,8 @@ pipeline {
             }
         stage('deploy to cluster') {
         steps {
-                sh ""
-                helm upgrade --install hello-world ./hello-world-app --set image.tag=${BUILD_NUMBER}
+                
+               sh 'helm upgrade --install hello-world ./hello-world-app --set image.tag=${BUILD_NUMBER}'
             }
         }
         }
