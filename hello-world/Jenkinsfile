@@ -43,8 +43,7 @@ pipeline {
         stage('deploy to cluster') {
         steps {
                 withAWS(credentials: "$AWScredentialsId"){
-                sh 'export KUBECONFIG=$KUBECONFIG'
-                sh 'aws eks update-kubeconfig --region us-west-1 --name gal-eks'
+                
                 sh 'helm upgrade --install hello-world ./hello-world-app --set image.tag=${BUILD_NUMBER}'
             }}
         }
