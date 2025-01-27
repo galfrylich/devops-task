@@ -36,10 +36,12 @@ pipeline {
             steps {
                 script{
                     echo '# # # # # STAGE 3 - Push Image # # # # #'
-                    docker.withRegistry("https://" + registry, "ecr:us-west-1:" + AWScredentialsId) {
-                    dockerImage.push()
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: "$AWScredentialsId"]]) {
+                                docker push $dockerImage
+                            }
+                        }
+                    }
                 }
-            }
             }
         }
         
