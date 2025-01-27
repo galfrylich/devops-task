@@ -8,4 +8,4 @@
   roles:
     - docker_install
     - kubernetes_cli
-  
+    - aws cli 
