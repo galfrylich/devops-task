@@ -34,7 +34,7 @@ pipeline {
             steps {
                 script{
                     echo '# # # # # STAGE 3 - Push Image # # # # #'
-                    withAWS(credentials: 'aws', region: 'us-west-1'){
+                    withAWS(credentials: '$AWScredentialsId', region: 'us-west-1'){
                         sh 'echo hello'
                         sh 'docker push $AWSRegistry:latest'
                     }
