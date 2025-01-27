@@ -1,6 +1,7 @@
 pipeline {
     agent any 
     environment {
+        KUBECONFIG = credentials('4b1ac718-c535-4196-90bf-94f4ff608787')
         AWSRegistry = '314525640319.dkr.ecr.us-west-1.amazonaws.com/gal-repo'
         AWScredentialsId = '8460b74d-d6e5-447a-9386-dbd0d8a415e6'
         GitURL = 'https://github.com/galfrylich/devops-task'
@@ -41,7 +42,8 @@ pipeline {
             }
         stage('deploy to cluster') {
         steps {
-                sh 'echo hello'
+                
+                sh 'export KUBECONFIG=$KUBECONFIG'
                sh 'helm upgrade --install hello-world ./hello-world-app --set image.tag=${BUILD_NUMBER}'
             }
         }
