@@ -5,8 +5,6 @@ pipeline {
         AWScredentialsId = '20aa853b-0b70-47e4-97fa-122fc4e0df60'
         GitURL = 'https://github.com/galfrylich/devops-task'
         GitcredentialsId = 'be180531-f264-44fe-897e-818a60362759'
-        
-
     }
     stages {
         stage('Git Checkout') {
@@ -36,10 +34,7 @@ pipeline {
             steps {
                 script{
                     echo '# # # # # STAGE 3 - Push Image # # # # #'
-                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: "$AWScredentialsId"]]) {
-                                docker push $dockerImage
-                            }
-                        }
+                    sh 'docker push $AmazonRegistry:latest'
                     }
                 }
             }
