@@ -32,11 +32,11 @@ pipeline {
         }
         stage('push image to erc') {
             steps {
-                    
+                    withAWS(credentials: "$AWScredentialsId"){
                         sh 'aws ecr get-login-password --region us-west-1 | docker login --username AWS --password-stdin 314525640319.dkr.ecr.us-west-1.amazonaws.com'
                         sh 'echo hello'
                         sh 'docker push $AWSRegistry:latest'
-                    
+                    }
                 }
             }
         }
