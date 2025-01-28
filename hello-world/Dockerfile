@@ -10,7 +10,7 @@ WORKDIR /app
 COPY hello-world/app.py /app
 
 # Copy the requirements file first to leverage Docker cache
-COPY requirements.txt /app/
+COPY hello-world/requirements.txt /app/
 
 # Install dependencies
 RUN pip install --no-cache-dir -r /app/requirements.txt
