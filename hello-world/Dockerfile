@@ -10,7 +10,7 @@ WORKDIR /app
 COPY hello-world/app.py /app
 
 # Install Flask (and other dependencies if needed)
-RUN pip install -r hello-world/requirements.txt
+RUN pip install -r requirements.txt
 
 # Change ownership of the application files to the non-root user
 RUN chown -R appuser:appgroup /app
