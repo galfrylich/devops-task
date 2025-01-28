@@ -26,7 +26,7 @@ pipeline {
                 echo '# # # # # STAGE 2 - Build Image # # # # #'
                 script{
                     dockerImage = docker.build("$AWSRegistry:${BUILD_NUMBER}", "-f hello-world/Dockerfile .")
-
+                    
 
                 }
             }
