@@ -9,8 +9,11 @@ WORKDIR /app
 # Copy the application code to the container
 COPY hello-world/app.py /app
 
-# Install Flask (and other dependencies if needed)
-RUN pip install -r requirements.txt
+# Copy the requirements file first to leverage Docker cache
+COPY requirements.txt /app/
+
+# Install dependencies
+RUN pip install --no-cache-dir -r /app/requirements.txt
 
 # Change ownership of the application files to the non-root user
 RUN chown -R appuser:appgroup /app
