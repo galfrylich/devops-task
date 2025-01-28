@@ -10,3 +10,4 @@
     - kubernetes_cli
     - aws cli 
     - helm 
+    - trivy
