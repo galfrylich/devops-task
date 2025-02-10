@@ -5,6 +5,9 @@ resource "aws_instance" "jenkins-ec2" {
   vpc_security_group_ids = [ var.public_sg_id ]
   subnet_id = var.public_subnet_id
   associate_public_ip_address = true
+  root_block_device{
+    volume_size = 25
+  }
   key_name = var.key_name
   tags = {
     Name = "jenkins-ec2"
