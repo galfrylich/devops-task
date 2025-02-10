@@ -71,8 +71,8 @@ jobs:
         # be deployed to ECS.
         cd hello-world
         echo ls 
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG hello-world/
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG 
         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
     
