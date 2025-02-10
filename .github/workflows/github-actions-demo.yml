@@ -26,9 +26,8 @@
 
 name: push image to ecr aws 
 
-on:
-  push:
-    branches: [ "main" ]
+on: issue_comment
+
 
 env:
   AWS_REGION: us-west-1                   # set this to your preferred AWS region, e.g. us-west-1
@@ -53,6 +52,31 @@ jobs:
       
     - name: Checkout
       uses: actions/checkout@v4
+
+    - name: Get Latest Version from Git Tags
+      id: get-latest-tag
+      run: |
+        git fetch --tags
+        # Get the latest tag, or set it to 0.0.1 if no tags exist
+        LATEST_TAG=$(git tag -l --sort=-v:refname | head -n 1)
+        
+        # If no tags exist, set version to 0.0.1 (do not increment)
+        if [ -z "$LATEST_TAG" ]; then
+          LATEST_TAG="0.0.1"
+          echo "No tags found. Using initial version: $LATEST_TAG"
+        fi
+        
+        echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
+
+    - name: Increment Version (if version exists)
+      id: versioning
+      if: ${{ env.LATEST_TAG != '0.0.1' }}  # Only increment if a version exists
+      uses: christian-draeger/increment-semantic-version@1.0.3
+      with:
+        current-version: ${{ env.LATEST_TAG }}
+        version-fragment: "patch"  
+    
+        
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
