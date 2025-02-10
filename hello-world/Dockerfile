@@ -7,10 +7,10 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 WORKDIR /app
 
 # Copy the application code to the container
-COPY hello-world/app.py /app
+COPY app.py /app
 
 # Copy the requirements file first to leverage Docker cache
-COPY hello-world/requirements.txt /app/
+COPY requirements.txt /app/
 
 # Install dependencies
 RUN pip install --no-cache-dir -r /app/requirements.txt
