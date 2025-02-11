@@ -26,9 +26,13 @@
 
 name: push image to ecr aws 
 
-on:
-  pull_request:
-    types: [closed]
+
+
+on: 
+  pull_request: 
+    types:  [closed]
+
+
 
 env:
   AWS_REGION: us-west-1                   # set this to your preferred AWS region, e.g. us-west-1
