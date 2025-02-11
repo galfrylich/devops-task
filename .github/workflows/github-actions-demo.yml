@@ -90,13 +90,13 @@ jobs:
         
     - name: push tag 
       if: env.IS_FIRST_TAG == 'true'
-      uses: actions-ecosystem/action-push-tag@v1
+      uses: ncipollo/release-action@v1
       with:
         tag: "0.0.1"
 
     - name: Push incremented tag
       if: env.IS_FIRST_TAG == 'false'
-      uses: actions-ecosystem/action-push-tag@v1
+      uses: ncipollo/release-action@v1
       with:
         tag: ${{ steps.versioning.outputs.new-version }}     
       
