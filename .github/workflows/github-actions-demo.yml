@@ -81,8 +81,8 @@ jobs:
       with:
         current-version: ${{ env.LATEST_TAG }}
         version-fragment: "patch"  
-    
-    - uses: actions-ecosystem/action-push-tag@v1
+    - name: push tag 
+      uses: actions-ecosystem/action-push-tag@v1
       with:
         tag: ${{ env.LATEST_TAG }}
         
