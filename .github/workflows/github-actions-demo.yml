@@ -29,9 +29,7 @@ name: push image to ecr aws
 on: 
   pull_request: 
     types:  [closed]
-  push:
-    branches:
-      - main
+
 
 env:
   AWS_REGION: us-west-1                   # set this to your preferred AWS region, e.g. us-west-1
@@ -46,9 +44,7 @@ jobs:
   build:
     if: |
       (github.event.pull_request.merged == true) &&
-      (contains(github.event.pull_request.head.ref, 'patch/') || 
-      contains(github.event.pull_request.head.ref, 'feature/') || 
-      contains(github.event.pull_request.head.ref, 'hotfix/'))
+      (contains(github.head_ref, 'patch/') || (contains(github.head_ref, 'feature/')) || (contains(github.head_ref, 'hotfix/')))
 
     name: Deploy
     runs-on: ubuntu-latest
@@ -56,8 +52,6 @@ jobs:
 
     steps:
       
-    - name: Debug Event Payload
-      run: echo '${{ toJson(github.event) }}'
     - name: Checkout
       uses: actions/checkout@v4
 
