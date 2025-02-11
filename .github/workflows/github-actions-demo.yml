@@ -98,7 +98,7 @@ jobs:
       if: env.IS_FIRST_TAG == 'false'
       uses: ncipollo/release-action@v1
       with:
-        tag: minor
+        version-fragment: minor
 
       
     
