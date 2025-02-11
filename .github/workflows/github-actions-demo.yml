@@ -55,37 +55,51 @@ jobs:
 
     steps:
       
-    - name: Checkout
+    - name: Checkout repository
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Ensures full history, including tags
 
     - name: Get Latest Version from Git Tags
       id: get-latest-tag
       run: |
         git fetch --tags
-        # Get the latest tag, or set it to 0.0.1 if no tags exist
+        echo "Available tags:"
+        git tag -l --sort=-v:refname  # Debugging step
+
         LATEST_TAG=$(git tag -l --sort=-v:refname | head -n 1)
-        
-        # If no tags exist, set version to 0.0.1 (do not increment)
+
         if [ -z "$LATEST_TAG" ]; then
           LATEST_TAG="0.0.1"
           echo "No tags found. Using initial version: $LATEST_TAG"
+          echo "IS_FIRST_TAG=true" >> $GITHUB_ENV  # Mark that we are starting fresh
+        else
+          echo "IS_FIRST_TAG=false" >> $GITHUB_ENV
         fi
-        
 
         echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
 
     - name: Increment Version (if version exists)
       id: versioning
-      if: ${{ env.LATEST_TAG != '0.0.1' }}  # Only increment if a version exists
+      if: env.IS_FIRST_TAG == 'false'  # Skip if it's the first tag
       uses: christian-draeger/increment-semantic-version@1.0.3
       with:
         current-version: ${{ env.LATEST_TAG }}
         version-fragment: "patch"  
+
+        
     - name: push tag 
+      if: env.IS_FIRST_TAG == 'true'
       uses: actions-ecosystem/action-push-tag@v1
       with:
-        tag: ${{ env.LATEST_TAG }}
-        
+        tag: "0.0.1"
+
+    - name: Push incremented tag
+      if: env.IS_FIRST_TAG == 'false'
+      uses: actions-ecosystem/action-push-tag@v1
+      with:
+        tag: ${{ steps.versioning.outputs.new-version }}     
+      
     
 
     - name: Configure AWS credentials
