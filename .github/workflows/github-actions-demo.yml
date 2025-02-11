@@ -85,7 +85,7 @@ jobs:
       uses: christian-draeger/increment-semantic-version@1.0.3
       with:
         current-version: ${{ env.LATEST_TAG }}
-        version-fragment: "patch"  
+        version-fragment: "minor"  
 
         
     - name: push tag 
@@ -98,8 +98,8 @@ jobs:
       if: env.IS_FIRST_TAG == 'false'
       uses: ncipollo/release-action@v1
       with:
-        version-fragment: minor
-
+        tag: ${{ steps.versioning.outputs.new-version }} 
+            
       
     
 
