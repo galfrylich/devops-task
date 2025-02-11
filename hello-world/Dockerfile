@@ -24,4 +24,5 @@ USER appuser
 # Expose the port your Flask app will run on
 EXPOSE 5000
 
+# Set the command to run the application
 CMD ["python", "app.py"]
