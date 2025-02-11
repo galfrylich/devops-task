@@ -26,7 +26,9 @@
 
 name: push image to ecr aws 
 
-on: issue_comment
+on: 
+  pull_request: 
+    types:  [closed]
 
 
 env:
