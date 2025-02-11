@@ -44,7 +44,9 @@ jobs:
   build:
     if: |
       (github.event.pull_request.merged == true) &&
-      (contains(github.head_ref, 'patch/') || (contains(github.head_ref, 'feature/')) || (contains(github.head_ref, 'hotfix/')))
+      (contains(github.event.pull_request.head.ref, 'patch/') || 
+      contains(github.event.pull_request.head.ref, 'feature/') || 
+      contains(github.event.pull_request.head.ref, 'hotfix/'))
 
     name: Deploy
     runs-on: ubuntu-latest
