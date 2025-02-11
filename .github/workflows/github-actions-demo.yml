@@ -71,6 +71,7 @@ jobs:
           echo "No tags found. Using initial version: $LATEST_TAG"
         fi
         
+
         echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
 
     - name: Increment Version (if version exists)
@@ -81,7 +82,11 @@ jobs:
         current-version: ${{ env.LATEST_TAG }}
         version-fragment: "patch"  
     
+    - uses: actions-ecosystem/action-push-tag@v1
+      with:
+        tag: ${{ env.LATEST_TAG }}
         
+    
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -93,11 +98,6 @@ jobs:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
-    
-
-    - name: Debug File Structure
-      run: ls -R
-
 
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
