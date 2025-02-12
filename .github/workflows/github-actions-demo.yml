@@ -80,12 +80,12 @@ jobs:
         echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
 
     - name: Increment Version (if version exists)
-      id: versioning
+      id: bump_version
       if: env.IS_FIRST_TAG == 'false'  # Skip if it's the first tag
       uses: christian-draeger/increment-semantic-version@1.0.3
       with:
         current-version: ${{ env.LATEST_TAG }}
-        version-fragment: "major"  
+        version-fragment: "minor"  
       
     - run: echo "New version is ${{ steps.versioning.outputs.new-version }}"
 
@@ -99,7 +99,7 @@ jobs:
       if: env.IS_FIRST_TAG == 'false'
       uses: ncipollo/release-action@v1
       with:
-        tag: ${{ steps.versioning.outputs.new-version }} 
+        tag: ${{ steps.bump_version.outputs.next-version }}
             
     
   
