@@ -86,8 +86,9 @@ jobs:
       with:
         current-version: ${{ env.LATEST_TAG }}
         version-fragment: "major"  
+      
+    - run: echo "New version is ${{ steps.versioning.outputs.new-version }}"
 
-        
     - name: push tag 
       if: env.IS_FIRST_TAG == 'true'
       uses: ncipollo/release-action@v1
@@ -100,7 +101,8 @@ jobs:
       with:
         tag: ${{ steps.versioning.outputs.new-version }} 
             
-      
+    
+  
     
 
     - name: Configure AWS credentials
