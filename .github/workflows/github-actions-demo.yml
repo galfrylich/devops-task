@@ -85,7 +85,7 @@ jobs:
       uses: christian-draeger/increment-semantic-version@1.0.3
       with:
         current-version: ${{ env.LATEST_TAG }}
-        version-fragment: "minor"  
+        version-fragment: "feature"  
       
     - run: echo "New version is ${{ steps.versioning.outputs.new-version }}"
 
